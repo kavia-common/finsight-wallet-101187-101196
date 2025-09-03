@@ -1,82 +1,109 @@
-# Lightweight React Template for KAVIA
+# Finsight Wallet - Frontend App
 
-This project provides a minimal React template with a clean, modern UI and minimal dependencies.
+A React frontend for a fintech application enabling:
+- User registration and login
+- Financial account management
+- Transactions viewing
+- Insights dashboard with simple analytics
 
-## Features
-
-- **Lightweight**: No heavy UI frameworks - uses only vanilla CSS and React
-- **Modern UI**: Clean, responsive design with KAVIA brand styling
-- **Fast**: Minimal dependencies for quick loading times
-- **Simple**: Easy to understand and modify
+This app is frontend-only and integrates with a backend via REST APIs configured through environment variables. It includes placeholder API implementations for development without a backend.
 
 ## Getting Started
 
-In the project directory, you can run:
+1. Install dependencies
+   npm install
 
-### `npm start`
+2. Configure environment variables
+   - Create a .env file in the project root (same dir as package.json) based on .env.example
+   - Set:
+     - REACT_APP_API_BASE_URL: Backend base URL (e.g., http://localhost:4000)
+     - REACT_APP_FEATURE_MOCK_API: "true" to use mock API in development
 
-Runs the app in development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+3. Start the app
+   npm start
 
-### `npm test`
+4. Run tests
+   npm test
 
-Launches the test runner in interactive watch mode.
+5. Build for production
+   npm run build
 
-### `npm run build`
+## Features
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Auth:
+  - Register: email, password, name
+  - Login/Logout
+  - Persisted session in localStorage
 
-## Customization
+- Accounts:
+  - List user accounts
+  - Create/Edit/Delete account (name, type, currency, starting balance)
 
-### Colors
+- Transactions:
+  - List transactions by account
+  - Add income/expense transactions
+  - Filter by date and type
 
-The main brand colors are defined as CSS variables in `src/App.css`:
+- Insights:
+  - High-level KPIs (total balance, monthly spend, income vs expense)
+  - Simple charts (pure CSS) and summaries
 
-```css
-:root {
-  --kavia-orange: #E87A41;
-  --kavia-dark: #1A1A1A;
-  --text-color: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --border-color: rgba(255, 255, 255, 0.1);
-}
-```
+## Project Structure
 
-### Components
+src/
+- App.js: App shell and routing
+- index.js: Entry point
+- index.css, App.css: Styles
+- components/: Reusable UI and feature components
+- pages/: Top-level pages for routes
+- context/
+  - AuthContext.js: Auth state and provider
+- services/
+  - apiClient.js: Axios client (with ENV config)
+  - mockApi.js: Mock backend implementation for dev/demo
+  - storage.js: Local storage helpers
+- utils/
+  - format.js: Format helpers (currency, dates)
+- hooks/
+  - useApi.js: Hook to wrap API calls with loading/error handling
 
-This template uses pure HTML/CSS components instead of a UI framework. You can find component styles in `src/App.css`. 
+## Environment Variables
 
-Common components include:
-- Buttons (`.btn`, `.btn-large`)
-- Container (`.container`)
-- Navigation (`.navbar`)
-- Typography (`.title`, `.subtitle`, `.description`)
+Create .env file:
+- REACT_APP_API_BASE_URL=https://your-backend.example.com
+- REACT_APP_FEATURE_MOCK_API=true
 
-## Learn More
+Notes:
+- Do not commit secrets; use .env locally.
+- When REACT_APP_FEATURE_MOCK_API=true, the app uses mockApi.js and won’t call a real backend.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## API Integration
 
-### Code Splitting
+The app expects a REST API with endpoints:
+- POST /auth/register
+- POST /auth/login
+- GET /accounts
+- POST /accounts
+- PUT /accounts/:id
+- DELETE /accounts/:id
+- GET /accounts/:id/transactions
+- POST /accounts/:id/transactions
+- DELETE /transactions/:id
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+These are abstracted via services/apiClient.js and services/mockApi.js. Swap by toggling REACT_APP_FEATURE_MOCK_API.
 
-### Analyzing the Bundle Size
+## Accessibility and UX
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- Keyboard accessible navigation
+- ARIA labels on forms and toggles
+- Responsive design
 
-### Making a Progressive Web App
+## Notes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- This project is built on a lightweight template without heavy UI libs
+- Charts are minimal and CSS-based for simplicity
+- You can replace mock API with your real backend anytime
 
-### Advanced Configuration
+## License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+MIT
